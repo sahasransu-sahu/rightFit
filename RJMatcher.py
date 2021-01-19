@@ -72,16 +72,19 @@ def nJobstoResume() :
 
 def prepareFolder(description_file_path):
     files_docs=[]
-    for filename in os.listdir(description_file_path):
-        file_content=''
-        filepath=description_file_path+'/'+filename
-        with open(filepath) as f:
-            tokens = sent_tokenize(f.read())
-            for line in tokens:
-                file_content=file_content+ line
-        files_docs.append(file_content)
-        #print(file_content)
-    return files_docs
+    '''added line '''
+    for filename in sorted(os.listdir(description_file_path)):
+        if filename.endswith('.txt'):
+            file_content=''
+            filepath=description_file_path+'/'+filename
+            with open(filepath) as f:
+                tokens = sent_tokenize(f.read())
+                for line in tokens:
+                    file_content=file_content+ line
+            files_docs.append(file_content)
+            #print(file_content)
+        # added line
+    return files_docs,sorted(os.listdir(description_file_path))
 
 
 def prepareFile(file_path):
@@ -97,9 +100,8 @@ def prepareFile(file_path):
     #print (resumeContent)
     return resumeContent
 
-
 def nJobtoResumeGensim():
-    descriptions= prepareFolder('job_desciptions')  #argument is path to jd folders
+    descriptions, file_names= prepareFolder('job_desciptions')  #argument is path to jd folders
     print("Number of Job descriptions:", len(descriptions))
     #print (descriptions)
 
@@ -112,7 +114,6 @@ def nJobtoResumeGensim():
     tf_idf = gensim.models.TfidfModel(corpus)
     sims = gensim.similarities.Similarity(None, tf_idf[corpus], num_features=len(dictionary))
 
-
     '''get resume content'''
     resumeContent = prepareFile('SAHASRANSU_SAHU_LATEST_RESUME.txt')
     for line in resumeContent:
@@ -122,10 +123,10 @@ def nJobtoResumeGensim():
 
     query_doc_tf_idf = tf_idf[query_doc_bow]
     print('Comparing Result:', sims[query_doc_tf_idf])
-
+    print(file_names)
 
 def nResumetoJobGensim():
-    descriptions = prepareFolder('resumes')  #argument is path to resume folders
+    descriptions,filenames = prepareFolder('resumes')  #argument is path to resume folders
     print("Number of Resumes :", len(descriptions))
     #print (descriptions)
 
@@ -145,9 +146,9 @@ def nResumetoJobGensim():
         query_doc = [w.lower() for w in word_tokenize(line)]
         query_doc_bow = dictionary.doc2bow(query_doc)
 
-
     query_doc_tf_idf = tf_idf[query_doc_bow]
     print('Comparing Result:', sims[query_doc_tf_idf])
+    print('corresponding  f:', filenames)
 
 
 
@@ -158,7 +159,6 @@ if __name__ == "__main__":
     nJobtoResumeGensim()
     print('=====================================================================================')
     print('=====================================================================================')
-    #print('===================Multiple Resumes, one Job=========================================')
-    #nResumetoJobGensim()
-    #print('=====================================================================================')
-    #gensimApproach(job_description, resume)
+    print('===================Multiple Resumes, one Job=========================================')
+    nResumetoJobGensim()
+    print('=====================================================================================')
