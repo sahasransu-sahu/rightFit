@@ -1,0 +1,3 @@
+Once the index is built, we are going to calculate how similar is this query document to each document in the index.
+So, create second .txt file which will include query documents or sentences and tokenize them as we did before.
+expertise in sql ,microsoft azure ,mongodb. know database server maintenance.

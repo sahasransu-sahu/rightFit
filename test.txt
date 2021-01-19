@@ -1,0 +1,5 @@
+Natural language toolkit (NLTK) is the most popular library for natural language processing (NLP) which was written in Python and has a big community behind it.
+NLTK also is very easy to learn, actually, it’ s the easiest natural language processing (NLP) library that we are going to use.
+It contains text processing libraries for tokenization, parsing, classification, stemming, tagging and semantic reasoning.
+It contains text processing libraries for tokenization, parsing, classification, stemming, tagging and semantic reasoning.
+calculate how similar is this
